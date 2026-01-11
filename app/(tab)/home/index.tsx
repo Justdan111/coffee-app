@@ -151,7 +151,7 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        <View className="flex-row flex-wrap">
+        <View className="flex-row flex-wrap justify-between gap-3">
           {COFFEE_DATA.map((item, index) => (
             <CoffeeCard key={item.id} item={item} index={index} />
           ))}
