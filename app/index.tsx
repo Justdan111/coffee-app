@@ -28,13 +28,11 @@ export default function OnboardingScreen() {
   }
 
   return (
-    <LinearGradient colors={["#000000", "#2D2D2D"]} style={{ flex: 1 }}>
+    <LinearGradient colors={["#000000", "#000000"]} style={{ flex: 1 }}>
       <View className="flex-1 justify-center items-center px-6">
         <Animated.View entering={FadeIn.duration(800)} className="w-full items-center mb-8">
           <Image
-            source={{
-              uri: "/images/screenshot-202026-01-10-20at-2023.png",
-            }}
+            source={require("@/assets/Coffee/6.png")}
             style={{ width: "100%", height: 400, borderRadius: 16 }}
           />
         </Animated.View>

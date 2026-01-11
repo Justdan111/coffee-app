@@ -1,4 +1,3 @@
-"use client"
 
 import { useEffect } from "react"
 import { View, Text, Image, Pressable } from "react-native"
