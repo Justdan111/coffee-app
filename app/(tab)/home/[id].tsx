@@ -4,6 +4,7 @@ import { View, Text, Image, Pressable, ScrollView } from "react-native"
 import { useRouter, useLocalSearchParams } from "expo-router"
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated"
 import { ChevronLeft, Heart } from "lucide-react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -12,10 +13,10 @@ const COFFEE_DETAILS = {
   1: {
     name: "Caffe Mocha",
     type: "Deep Foam",
-    price: 4.53,
+    price: 40.53,
     rating: 4.8,
     reviews: 230,
-    image: "/images/screenshot-202026-01-10-20at-2023.png",
+    image: require("@/assets/Coffee/2.png"),
     description:
       "A cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the fo...",
     details: [
@@ -27,10 +28,10 @@ const COFFEE_DETAILS = {
   2: {
     name: "Flat White",
     type: "Espresso",
-    price: 3.53,
+    price: 30.53,
     rating: 4.8,
     reviews: 230,
-    image: "/images/screenshot-202026-01-10-20at-2023.png",
+   image: require("@/assets/Coffee/3.png"),
     description:
       "A cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk the fo...",
     details: [
@@ -47,6 +48,7 @@ export default function DetailScreen() {
   const coffee = COFFEE_DETAILS[params.id as unknown as keyof typeof COFFEE_DETAILS]
   const [selectedSize, setSelectedSize] = useState("M")
   const [isFavorite, setIsFavorite] = useState(false)
+   const insets = useSafeAreaInsets();
 
   if (!coffee) {
     return (
@@ -61,10 +63,11 @@ export default function DetailScreen() {
   }
 
   return (
-    <View className="flex-1 bg-secondary">
+    <View className="flex-1 bg-secondary" style={{ paddingTop: insets.top }}>
       <AnimatedView
         entering={FadeInDown.duration(400)}
-        className="absolute top-0 left-0 right-0 z-10 flex-row justify-between items-center px-5 pt-4 pb-4"
+        className="absolute right-0 z-10 flex-row justify-between items-center px-5 pt-4 pb-4"
+        style={{ top: insets.top }}
       >
         <Pressable onPress={() => router.back()} className="p-2 rounded-full bg-gray-800 active:bg-gray-700">
           <ChevronLeft size={24} color="#fff" />
@@ -80,7 +83,7 @@ export default function DetailScreen() {
 
       <ScrollView className="flex-1 pt-20">
         <AnimatedView entering={FadeInUp.delay(100).duration(500)} className="px-5 mb-6">
-          <Image source={{ uri: coffee.image }} style={{ width: "100%", height: 300, borderRadius: 20 }} />
+          <Image source={coffee.image} style={{ width: "100%", height: 300, borderRadius: 20 }} />
         </AnimatedView>
 
         <AnimatedView
@@ -130,7 +133,7 @@ export default function DetailScreen() {
         <AnimatedView entering={FadeInUp.delay(500).duration(500)} className="px-5">
           <View className="flex-row justify-between items-center mb-6 pb-4 border-b border-gray-700">
             <Text className="text-gray-400">Price</Text>
-            <Text className="text-primary text-2xl font-bold">${coffee.price}</Text>
+            <Text className="text-primary text-2xl font-bold">₦{coffee.price}</Text>
           </View>
         </AnimatedView>
       </ScrollView>

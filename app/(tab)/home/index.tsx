@@ -4,7 +4,7 @@ import { View, Text, ScrollView, Pressable, Image, TextInput } from "react-nativ
 import { useRouter } from "expo-router"
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated"
 import { Search, ShoppingCart, MapPin } from "lucide-react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -54,6 +54,8 @@ export default function HomeScreen() {
   const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState("All Coffee")
   const [searchText, setSearchText] = useState("")
+  const insets = useSafeAreaInsets();
+
 
   const navigateToDetail = useCallback(
     (coffee: (typeof COFFEE_DATA)[0]) => {
@@ -66,7 +68,7 @@ export default function HomeScreen() {
   )
 
   const CoffeeCard = ({ item, index }: { item: (typeof COFFEE_DATA)[0]; index: number }) => (
-    <AnimatedView entering={FadeInUp.delay(index * 100).duration(500)} className="w-[48%] mb-4">
+    <AnimatedView entering={FadeInUp.delay(index * 100).duration(500)} className="w-[48%] mb-4 shadow-black/30 shadow-lg">
       <Pressable onPress={() => navigateToDetail(item)} className=" ">
         <View className="relative">
           <Image source={item.image} style={{ width: "100%", height: 180, borderRadius: 12, marginBottom: 8 }} />
@@ -88,7 +90,7 @@ export default function HomeScreen() {
   )
 
   return (
-    <SafeAreaView className="flex-1 bg-secondary">
+    <View className="flex-1 bg-secondary" style={{ paddingTop: insets.top }}>
       <AnimatedView entering={FadeInDown.duration(500)} className="px-5 pt-6 pb-4  rounded-xl p-4">
         <View className="flex-row justify-between items-center mb-6 ">
           <View>
@@ -160,6 +162,6 @@ export default function HomeScreen() {
         <View className="h-10" />
       </ScrollView>
 
-    </SafeAreaView>
+    </View>
   )
 }

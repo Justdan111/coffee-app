@@ -102,9 +102,6 @@ export default function TrackingScreen() {
           </Pressable>
         </View>
 
-        <Pressable className="py-4 items-center">
-          <Text className="text-primary font-semibold">Back to home</Text>
-        </Pressable>
       </AnimatedView>
     </View>
   )
