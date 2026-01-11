@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #a0826d;
+    --color-primary-dark: #8b6f47;
+    --color-secondary: #1a1a1a;
+    --color-accent: #d4a574;
+    --color-coffee-dark: #2d2d2d;
+    --color-coffee-light: #f5f5f5;
+    --color-success: #4caf50;
+    --color-warning: #ffc107;
+    --color-error: #f44336;
+  }
+
+  body {
+    @apply bg-secondary text-coffee-light;
+  }
+}
+
+@layer components {
+  .coffee-button {
+    @apply rounded-full py-4 px-6 bg-primary font-semibold active:opacity-80 transition-opacity;
+  }
+
+  .coffee-card {
+    @apply rounded-2xl bg-coffee-dark p-4 overflow-hidden;
+  }
+
+  .coffee-text {
+    @apply text-coffee-light font-sans;
+  }
+}
