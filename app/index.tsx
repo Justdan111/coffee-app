@@ -24,7 +24,7 @@ export default function OnboardingScreen() {
   }))
 
   const handleGetStarted = () => {
-    router.push("/(tab)/home")
+    router.push("/login")
   }
 
   return (
