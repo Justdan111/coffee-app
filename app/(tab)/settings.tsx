@@ -15,7 +15,7 @@ export default function SettingsScreen() {
     name: "James Bond",
     email: "james@bond.com",
     phone: "+123 456 7890",
-    address: "221B Baker Street, London",
+    address: "221B Baker Street, Abuja ",
   })
   const [notifications, setNotifications] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
