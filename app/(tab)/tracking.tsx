@@ -4,6 +4,7 @@ import { useRouter } from "expo-router"
 import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated"
 import { ChevronLeft, Phone } from "lucide-react-native"
 import MapView, { Marker, UrlTile, PROVIDER_DEFAULT } from "react-native-maps"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 interface trackingData {
   estimatedTime: string
@@ -40,9 +41,10 @@ const AnimatedView = Animated.createAnimatedComponent(View)
 
 export default function TrackingScreen() {
   const router = useRouter()
+  const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-1 bg-secondary">
+    <View className="flex-1 bg-secondary" style={{ paddingTop: insets.top }}>
       <AnimatedView
         entering={FadeInDown.duration(400)}
         className="flex-row justify-between items-center px-5 py-4 border-b border-gray-700"
