@@ -1,16 +1,9 @@
 
-import { useEffect } from "react"
-import { View, Text, Image, Pressable, ImageSourcePropType } from "react-native"
+import { View, Text, Image, Pressable, ImageSourcePropType, StyleSheet } from "react-native"
 import { useRouter } from "expo-router"
-import Animated, {
-  FadeInUp,
-  FadeInDown,
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated"
+import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated"
 import { ChevronLeft, Phone } from "lucide-react-native"
+import MapView, { Marker, UrlTile, PROVIDER_DEFAULT } from "react-native-maps"
 
 interface trackingData {
   estimatedTime: string
@@ -20,6 +13,10 @@ interface trackingData {
     name: string
     avatar: ImageSourcePropType
     phone: string
+  }
+  coordinates: {
+    latitude: number
+    longitude: number
   }
 }
 
@@ -33,22 +30,16 @@ const TRACKING_DATA: trackingData = {
     avatar: require("@/assets/images/avatar.avif"),
     phone: "+234 801 234 5678",
   },
+  coordinates: {
+    latitude: 9.0579,
+    longitude: 7.4951,
+  },
 }
 
 const AnimatedView = Animated.createAnimatedComponent(View)
-const AnimatedImage = Animated.createAnimatedComponent(Image)
 
 export default function TrackingScreen() {
   const router = useRouter()
-  const opacity = useSharedValue(1)
-
-  useEffect(() => {
-    opacity.value = withRepeat(withTiming(0.5, { duration: 1000 }), -1, true)
-  }, [])
-
-  const pulseStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }))
 
   return (
     <View className="flex-1 bg-secondary">
@@ -67,21 +58,36 @@ export default function TrackingScreen() {
         entering={FadeInUp.delay(100).duration(500)}
         className="flex-1 bg-gray-200 mx-5 my-6 rounded-3xl overflow-hidden"
       >
-        <View style={{ width: "100%", height: "100%", backgroundColor: "#E8E8E8" }}>
-          <Image
-            source={{
-              uri: "/images/screenshot-202026-01-10-20at-2023.png",
-            }}
-            style={{ width: "100%", height: "100%" }}
+        <MapView
+          provider={PROVIDER_DEFAULT}
+          style={styles.map}
+          initialRegion={{
+            latitude: TRACKING_DATA.coordinates.latitude,
+            longitude: TRACKING_DATA.coordinates.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+          mapType="standard"
+        >
+          {/* OpenStreetMap tiles overlay */}
+          <UrlTile
+            urlTemplate="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            maximumZ={19}
+            flipY={false}
           />
-          <AnimatedView
-            style={pulseStyle}
-            className="absolute w-12 h-12 bg-primary rounded-full items-center justify-center"
-            pointerEvents="none"
+          <Marker
+            coordinate={{
+              latitude: TRACKING_DATA.coordinates.latitude,
+              longitude: TRACKING_DATA.coordinates.longitude,
+            }}
+            title="Delivery Location"
+            description={TRACKING_DATA.deliveryAddress}
           >
-            <Text className="text-lg">📍</Text>
-          </AnimatedView>
-        </View>
+            <View className="bg-primary p-2 rounded-full">
+              <Text className="text-lg">📍</Text>
+            </View>
+          </Marker>
+        </MapView>
       </AnimatedView>
 
       <AnimatedView entering={FadeInUp.delay(200).duration(500)} className="px-5 mb-6 items-center">
@@ -129,3 +135,10 @@ export default function TrackingScreen() {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  map: {
+    width: "100%",
+    height: "100%",
+  },
+})
