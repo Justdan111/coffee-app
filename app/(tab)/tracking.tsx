@@ -1,6 +1,6 @@
 
 import { useEffect } from "react"
-import { View, Text, Image, Pressable } from "react-native"
+import { View, Text, Image, Pressable, ImageSourcePropType } from "react-native"
 import { useRouter } from "expo-router"
 import Animated, {
   FadeInUp,
@@ -11,6 +11,29 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 import { ChevronLeft, Phone } from "lucide-react-native"
+
+interface trackingData {
+  estimatedTime: string
+  deliveryAddress: string
+  progress: number
+  customer: {
+    name: string
+    avatar: ImageSourcePropType
+    phone: string
+  }
+}
+
+// mockdata for tracking screen
+const TRACKING_DATA: trackingData = {
+  estimatedTime: "10 minutes left",
+  deliveryAddress: "Abuja Nigeria.",
+  progress: 3,
+  customer: {
+    name: "Dane Emmanuel",
+    avatar: require("@/assets/images/avatar.avif"),
+    phone: "+234 801 234 5678",
+  },
+}
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedImage = Animated.createAnimatedComponent(Image)
@@ -62,8 +85,8 @@ export default function TrackingScreen() {
       </AnimatedView>
 
       <AnimatedView entering={FadeInUp.delay(200).duration(500)} className="px-5 mb-6 items-center">
-        <Text className="text-white text-xl font-bold mb-1">10 minutes left</Text>
-        <Text className="text-gray-400 text-base">Delivery to Jl. Kpg Sutoyo</Text>
+        <Text className="text-white text-xl font-bold mb-1">{TRACKING_DATA.estimatedTime}</Text>
+        <Text className="text-gray-400 text-base">Delivery to {TRACKING_DATA.deliveryAddress}</Text>
       </AnimatedView>
 
       <AnimatedView entering={FadeInUp.delay(300).duration(500)} className="px-5 mb-6">
@@ -90,11 +113,11 @@ export default function TrackingScreen() {
       <AnimatedView entering={FadeInUp.delay(400).duration(500)} className="px-5">
         <View className="bg-coffee-dark rounded-2xl p-5 flex-row items-center mb-6">
           <Image
-            source={{ uri: "https://i.pravatar.cc/150?img=5" }}
+            source={TRACKING_DATA.customer.avatar}
             style={{ width: 60, height: 60, borderRadius: 30, marginRight: 12 }}
           />
           <View className="flex-1">
-            <Text className="text-white font-semibold">Brooklyn Simmons</Text>
+            <Text className="text-white font-semibold">{TRACKING_DATA.customer.name}</Text>
             <Text className="text-gray-400 text-sm">Personal Courier</Text>
           </View>
           <Pressable className="p-2 bg-gray-700 rounded-full">
